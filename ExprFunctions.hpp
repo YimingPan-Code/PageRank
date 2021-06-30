@@ -137,20 +137,20 @@ double sampleCorrelationCoefficient(T X[], T Y[])
 	return xy_covariance / sqrt(x_variance * y_variance);
 }
 //init graph
-void init_graph()
+void init_graph(MapAccum<> map)
 {
 	srand(0);
 	ulong size;
 	begin_index[0] = 0;
 	vector<ulong> g;
 	set<ulong> out;
-	for (ulong i = 0; i < N; ++i)
+	for (ulong i = 0; i < map.size(); ++i)
 	{
-		size = rand() % MAX_OUT_NODE;
+		size = map[i].size();
 		begin_index[i + 1] = begin_index[i] + size;
-		while (out.size() < size)
+		for (ulong j = 0; j < size; ++j)
 		{
-			out.emplace(rand() % N);
+			out.emplace(map[i][j]);
 		}
 		g.insert(g.end(), out.begin(), out.end());
 	}
@@ -162,10 +162,6 @@ int main()
 	ulong current_vertex, out_size;
 	clock_t start, end;
 	init_graph();
-	printf("graph inited\n");
-	printf("number of nodes: %lu\n", N);
-	printf("number of edges: %lu\n", begin_index[N]);
-	printf("average number of edges: %.2lf\n", double(begin_index[N]) / N);
 	start = clock();
 	ulong total_iteration_time = 0;
 	for (ulong source = 0; source < N; ++source)
