@@ -137,7 +137,7 @@ double sampleCorrelationCoefficient(T X[], T Y[])
 	return xy_covariance / sqrt(x_variance * y_variance);
 }
 //init graph
-void init_graph(MapAccum<> map)
+void init_graph(MapAccum<INT,INT> map)
 {
 	srand(0);
 	ulong size;
@@ -157,7 +157,7 @@ void init_graph(MapAccum<> map)
 	graph = new ulong[g.size()];
 	memcpy(graph, g.data(), g.size() * sizeof(ulong));
 }
-int main()
+MapAcuum<INT,INT> main()
 {
 	ulong current_vertex, out_size;
 	clock_t start, end;
