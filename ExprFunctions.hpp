@@ -44,6 +44,8 @@
 #include <cmath>
 #include <ctime>
 #include <iostream>
+#include <map>
+
 /**     XXX Warning!! Put self-defined struct in ExprUtil.hpp **
  *  No user defined struct, helper functions (that will not be directly called
  *  in the GQuery scripts) etc. are allowed in this file. This file only
@@ -63,7 +65,7 @@ namespace UDIMPL {
 
   const double alpha = 0.15;
 
-  double PR[N] = {};
+  std:map<Int,Float> PR;
   /****** BIULT-IN FUNCTIONS **************/
   /****** XXX DON'T REMOVE ****************/
   inline int64_t str_to_int (string str) {
@@ -144,25 +146,26 @@ void init_graph(MapAccum<INT,INT> map)
 	begin_index[0] = 0;
 	vector<ulong> g;
 	set<ulong> out;
-	for (ulong i = 0; i < map.size(); ++i)
+	ulong i=0;
+	for (iter = map.begin(); iter != map.end(); iter++)
 	{
-		size = map[i].size();
+		size = (map->second).size();
 		begin_index[i + 1] = begin_index[i] + size;
 		for (ulong j = 0; j < size; ++j)
 		{
-			out.emplace(map[i][j]);
+			out.emplace((map->second)[j]);
 		}
-		g.insert(g.end(), out.begin(), out.end());
+		g.insert(g.end(), map->first);
+		g.insert(g.end(), out.begin(), out.end()),++i;
 	}
 	graph = new ulong[g.size()];
 	memcpy(graph, g.data(), g.size() * sizeof(ulong));
 }
-MapAcuum<INT,INT> main()
+Map<INT,FLOAT> main(MapAccum<INT,SetAccum<INT> map)
 {
 	ulong current_vertex, out_size;
 	clock_t start, end;
 	init_graph();
-	start = clock();
 	ulong total_iteration_time = 0;
 	for (ulong source = 0; source < N; ++source)
 	{
@@ -198,14 +201,10 @@ MapAcuum<INT,INT> main()
 		}
 		total_iteration_time += iter;
 		for (ulong i = 0; i < N; ++i)
-			PR[i] += double(count[i]) / (iter * N);
+			PR.insert(g[begin_index[i]]double(count[i]) / (iter * N));
 	}
 	delete[] graph;
-	end = clock();
-	printf("total iteration time: %lu\n", total_iteration_time);
-	printf("average iteration time: %.2lf\n", double(total_iteration_time) / N);
-	printf("total execution time: %.2lf ms\n", (1000.0 * (end - start)) / CLOCKS_PER_SEC);
-	return 0;
+	return PR;
 }
   
 }
