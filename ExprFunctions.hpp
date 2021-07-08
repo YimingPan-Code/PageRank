@@ -201,7 +201,7 @@ Map<INT,FLOAT> main(MapAccum<INT,SetAccum<INT> map)
 		}
 		total_iteration_time += iter;
 		for (ulong i = 0; i < N; ++i)
-			PR.insert(g[begin_index[i]]double(count[i]) / (iter * N));
+			PR.insert(std:make_pair(g[begin_index[i]]，double(count[i]) / (iter * N))）;
 	}
 	delete[] graph;
 	return PR;
